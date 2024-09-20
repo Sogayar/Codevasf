@@ -62,16 +62,16 @@ O banco de dados é projetado para organizar e facilitar o uso de querys para au
 ### A tabela Periodo_Vigencia se relaciona com a tabela Ordem de Fornecimento através da coluna Ordem_de_FornecimentoID. Isso significa que cada ordem de fornecimento possui um período de vigência. 
 
 # 5. Regras de Negócio e Restrições
-(Descreva as regras e restrições aplicáveis)
+
 
 # 6. Procedimentos e Funções
-(Se aplicável)
+
 
 # 7. Exemplos de Consultas
-(Exemplos de consultas SQL úteis)
+
 
 # 8. Notas e Considerações
-(Dicas de desempenho, manutenção, etc.)
+
 
 # 9. Referências
-(Links e glossário)
+
