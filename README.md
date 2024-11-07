@@ -1,5 +1,5 @@
-# BD_Codevasf
-### Organização do Banco de Dados das informações e relatórios da CODEVASF para o Tribunal de Contas da União 
+# Codevasf
+### Organização de todos os projetos e relatórios da CODEVASF feitos pelo Tribunal de Contas da União 
 
 # 1. Introdução
 ## Objetivo do Documento
