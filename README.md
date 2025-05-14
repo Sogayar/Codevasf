@@ -51,7 +51,7 @@ Codevasf/
 
 1. Clone este repositório  
    ```bash
-    git clone https://github.com/Sogayar/Codevasf
+    git clone https://github.com/Sogayar/Codevasf.git
    ```
 
 2. Instale os pacotes necessários:  
