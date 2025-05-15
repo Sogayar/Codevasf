@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 from colorama import Fore, Style, init
 import time
 
-init(autoreset=True) # Inicializa com autoreset para evitar restauração manual de estilos
+init(autoreset=True) 
 
 def contador_iteração(inicio, fim):
     tempo_duracao = fim - inicio
@@ -18,11 +18,11 @@ def contador_tempototal(inicio_total, fim):
     tempo_duracao = fim - inicio_total
     horas, resto = divmod(tempo_duracao, 3600) 
     minutos, segundos = divmod(resto, 60) 
-    tempo_formatado = f"{int(horas):02}:{int(minutos):02}:{int(segundos):02}" # Formata como HH:MM:SS
+    tempo_formatado = f"{int(horas):02}:{int(minutos):02}:{int(segundos):02}" 
     print(f"\t\tTempo percorrido até o momento: {Fore.YELLOW}{tempo_formatado}")
 
-def save_excel():                    # Função para salvar todos os DataFrames em um único arquivo Excel, com respectivas abas
-    if not os.path.exists("XLS's"):         # Se o excel não exister, ele cria um novo
+def save_excel():                    
+    if not os.path.exists("XLS's"):         
         os.makedirs("XLS's")
     with pd.ExcelWriter("XLS's/Contratos 12000 a 14499 EXCEL.xlsx", engine='openpyxl') as writer:
         df_new.to_excel(writer, sheet_name='Contratos', index=False)
@@ -33,13 +33,10 @@ def save_excel():                    # Função para salvar todos os DataFrames 
     print("\tExcel atualizado salvo com sucesso!")
 
 inicio_total = time.time()
-edge_driver_path = 'msedgedriver.exe' # Caminho completo para o EdgeDriver
-
-# Carregamento do CSV com contratos para extração do campo 'Nº Instrumento'
-df = pd.read_excel("CSV's\Linhas 12000 a 14499 CSV_.xlsx")  # Lê o xlsx original
+edge_driver_path = 'msedgedriver.exe' 
+df = pd.read_excel("CSV's\Linhas 12000 a 14499 CSV_.xlsx")  
 contratos = df['Nº Instrumento'].tolist()
 
-# Criação de DataFrame's 
 df_new = pd.DataFrame(columns=[
     'Número de Instrumento', 'Tipo de Instrumento', 'Data de Publicação', 'Situação',
     'Período Inicial', 'Período Final', 'Valor Total (com aditivos)', 'Entidades Vinculadas',
@@ -50,18 +47,16 @@ df_inteiro_teor = pd.DataFrame(columns=['Número de Instrumento', 'Termo'])
 df_empenhos = pd.DataFrame(columns=['Número de Instrumento', 'Número de Empenho', 'Valor Empenho', 'Descrição Empenho'])
 df_error = pd.DataFrame(columns=['Número de Instrumento'])
 
-# Inicialização do WebDriver para o Microsoft Edge
 service = Service(executable_path=edge_driver_path)
 driver = webdriver.Edge(service=service)
-wait = WebDriverWait(driver, 5) # Definição de espera
+wait = WebDriverWait(driver, 5)
 waitUrl = WebDriverWait(driver, 25)
 
-url = "https://www.codevasf.gov.br/acesso-a-informacao/licitacoes-e-contratos/contratos" # Acessar o site
+url = "https://www.codevasf.gov.br/acesso-a-informacao/licitacoes-e-contratos/contratos" 
 driver.get(url)
 
 contador_total = 0
 contador_refresh = 0
-# Loop pelos contratos
 for i, contrato in enumerate(contratos):
     inicio = time.time()
     sucesso = False
@@ -71,22 +66,22 @@ for i, contrato in enumerate(contratos):
     empenhos = []
     print(f"\n\nIniciando processamento para o contrato: {Fore.BLUE}{Style.BRIGHT}{contrato}")
 
-    while not sucesso and tentativas < 2:  # Efetuar até 3 tentativas
+    while not sucesso and tentativas < 2:
         try:
             contador_refresh += 1
             contador_total += 1
             tentativas += 1
             print(f"\tTentativa {tentativas} para o contrato {contrato}")
 
-            waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="exercicio"]/option[1]'))) #Espera a opção (Todos estar presente no campo)
-            waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="uf"]/option[1]'))) #Espera a opção (Todos estar presente no campo)
+            waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="exercicio"]/option[1]'))) 
+            waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="uf"]/option[1]'))) 
 
-            campo_contrato = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="numeroInstrumento"]'))) # Preencher o campo de contrato
+            campo_contrato = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="numeroInstrumento"]'))) 
             driver.execute_script("arguments[0].scrollIntoView();", campo_contrato)
             campo_contrato.clear()
             campo_contrato.send_keys(contrato) # print(f"Campo contrato preenchido com {contrato}")
 
-            botao_pesquisar = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="btnPesquisar"]')))  # Clicar no botão de pesquisa
+            botao_pesquisar = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="btnPesquisar"]'))) 
             botao_pesquisar.click() # print("Botão de pesquisa clicado.")
 
             resultlist = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="resultList"]/div'))).text
@@ -96,7 +91,7 @@ for i, contrato in enumerate(contratos):
             else:
                 wait.until(EC.element_to_be_clickable(botao_listar)).click()
             
-            for linha in range(4, 9):  # Loop nas linhas 4 a 8
+            for linha in range(4, 9): 
                 try:
                     xpath_contrato = f'//*[@id="quadroContratos"]/div/table/tbody/tr[{linha}]/td[1]/a'
                     valor_pesquisado = wait.until(EC.presence_of_element_located((By.XPATH, xpath_contrato))).text
@@ -110,7 +105,6 @@ for i, contrato in enumerate(contratos):
                     print(f"\n\tContrato {contrato} não encontrado na linha {linha}, tentando próxima linha.")
                     pass
 
-            # Extração de elementos
             elemento = wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="modalPanel"]/div/table/tbody/tr[2]/td'))).text
             tipo_instrumento, numero = elemento.rsplit(' ', 1) # print(f"Tipo de Instrumento: {tipo_instrumento}")
 
@@ -194,7 +188,7 @@ for i, contrato in enumerate(contratos):
                         empenhos.append({ 'Número de Empenho': numero_empenho, 'Link de Empenho': link_empenho,
                             'Valor Empenho': valor_empenho, 'Descrição Empenho': descricao_empenho })
                     except NoSuchElementException:
-                        break #Quando não existir mais empenhos na lista
+                        break 
                     
                 qtd_empenhos = len(empenhos) 
                 valor_total_empenhos = sum(float(empenho['Valor Empenho']) for empenho in empenhos) # print(f"Quantidade de Empenhos Emitidos: {qtd_empenhos}") # print(f"Valor Total de Empenhos: {valor_total_empenhos}") # print(f"Empenhos Capturados:")
@@ -208,19 +202,18 @@ for i, contrato in enumerate(contratos):
                 qtd_empenhos = 0
                 pass
 
-            # Adiciona dados ao DataFrame Principal
             df_new = pd.concat([df_new, pd.DataFrame([{ 'Número de Instrumento': contrato,'Tipo de Instrumento': tipo_instrumento, 'Data de Publicação': data_publicacao, 
                 'Situação': situacao, 'Período Inicial': periodo_inicial, 'Período Final': periodo_final, 'Valor Total (com aditivos)': valor_total, 'Entidades Vinculadas': qtd_entidades, 
                 'Termos Vinculados': qtd_inteiro_teor, 'Empenhos Emitidos': qtd_empenhos, 'Valor Total de empenhos': valor_total_empenhos,'Objeto': objeto }])], ignore_index=True)
             
-            save_excel()# Salvar tudo no excel
-            sucesso = True  # Se tudo correr bem, a pesquisa foi um sucesso
+            save_excel()
+            sucesso = True 
             
             botao_fechar = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="closeModal"]')))
-            botao_fechar.click()# Fechar o POP-UP com o contrato
+            botao_fechar.click()
 
             botao_listarnovo = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="btnVoltar"]')))
-            botao_listarnovo.click()# Clicar no botão de Nova Consulta
+            botao_listarnovo.click()
 
             fim = time.time()
             contador_iteração(inicio = inicio,fim = fim)
@@ -230,7 +223,7 @@ for i, contrato in enumerate(contratos):
 
             if contador_refresh >= 249:
                 driver.refresh()
-                contador_refresh = 0  # Reinicia o contador após o refresh
+                contador_refresh = 0 
                 waitUrl.until(EC.presence_of_element_located((By.XPATH, '//*[@id="exercicio"]/option[1]')))
                 waitUrl.until(EC.presence_of_element_located((By.XPATH, '//*[@id="uf"]/option[1]')))
                 print(f"\n\t{Fore.LIGHTBLUE_EX}Site recarregado com sucesso após refresh.")
@@ -244,7 +237,7 @@ for i, contrato in enumerate(contratos):
         except ElementNotInteractableException:
             print(f"\t{Fore.RED}{Style.BRIGHT}Erro ao processar o contrato: {contrato}. Tentativa {tentativas}.")
             botao_listarnovo = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="btnVoltar"]')))
-            botao_listarnovo.click()# Clicar no botão de Nova Consulta
+            botao_listarnovo.click()
             if tentativas == 2:
                 print(f"\tFalha ao processar o contrato {contrato} após 2 tentativas.")
                 df_error = pd.concat([df_error, pd.DataFrame([{'Número de Instrumento': contrato}])], ignore_index=True)
@@ -258,5 +251,5 @@ for i, contrato in enumerate(contratos):
                 contador_tempototal(inicio_total = inicio_total, fim = fim)
                 break
 
-driver.quit() # Fechar o navegador
+driver.quit()
 print(f'{Fore.LIGHTGREEN_EX}{Style.BRIGHT}Processo concluído. Todos os contratos foram processados!!!')
