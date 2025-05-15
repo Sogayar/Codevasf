@@ -67,10 +67,10 @@ Codevasf/
    
 ---
 
-## Autoria
-- Henrique Sogayar (Ciência da Computação)
-- Eduardo Rabelo (Ciência da Computação)
-- Pedro Eros (Estatística)
+## 👥 Autoria
+- **Henrique Sogayar** — Estudante de Ciência da Computação
+- **Eduardo Rabelo** — Estudante de Ciência da Computação
+- **Pedro Eros** — Estudante de Estatística
 
 ---
    
