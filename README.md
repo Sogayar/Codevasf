@@ -5,20 +5,20 @@
 ### 📁 Organização das pastas do projeto de extração de dados efetuados para o Tribunal de Contas da União
    ```
 Codevasf/
-      └── Códigos/
-           ├── Extração_Doações/
-           │   ├── chromedriver.exe
-           │   └── WebScrapingDoacoes_v3.2.4.py
-           │
-           ├── Extração_Instrumentos/
-           │   ├── chromedriver.exe
-           │   └── WebScrapingContratos_v2.2.3.py
-           │
-           ├── Scripts_Análise/
-           │   ├── Analisa_erros.py
-           │   └── Extrator_link_empenhos.py
-           │
-           └── BotDeContratos.py
+      ├── Códigos/
+      │     ├── Extração_Doações/
+      │     │   └── WebScrapingDoacoes_v3.2.4.py
+      │     │
+      │     ├── Extração_Instrumentos/
+      │     │   └── WebScrapingContratos_v2.2.3.py
+      │     │
+      │     ├── Scripts_Analise/
+      │     │   ├── Analisa_erros.py
+      │     │   └── Extrator_link_empenhos.py
+      │     │
+      │     └── BotDeContratos.py
+      │
+      └── chromedriver.exe
 ```
 ---
 
