@@ -75,5 +75,5 @@ Codevasf/
 ---
    
 ## ✅ Status do Projeto
- - 🔄 Em desenvolvimento contínuo — funcionalidades estão sendo ajustadas.
+ - 🔄 Em desenvolvimento.
 
