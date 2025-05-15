@@ -18,9 +18,7 @@ Codevasf/
       │     │
       │     └── BotDeContratos.py
       │
-      ├── README.md
-      │
-      └── chromedriver.exe
+      └── README.md
 ```
 ---
 
