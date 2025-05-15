@@ -34,10 +34,9 @@ Codevasf/
 ## 🧰 Tecnologias Utilizadas
 
 - **Python**   
-- **Selenium**  
-- **Pandas**  
-- **ChromeDriver**  
-- **Excel** (como destino final de dados em algumas entregas)  
+    - **Selenium**  
+    - **Pandas**   
+- **Excel** (como destino final de dados)  
 - **Power BI** (para dashboards analíticos, fora deste repositório)
 
 ---
@@ -45,17 +44,20 @@ Codevasf/
 ## 🚀 Como Executar
 
  ### **Pré-requisitos**:
- > - Python 3.x instalado  
- > - Google Chrome instalado  
- > - ChromeDriver compatível com a versão do navegador  
+ >  - Python 3 instalado  
+ >  - Google Chrome instalado  
+ >  - ChromeDriver compatível com a versão do navegador
+ >      - Caso não possua, instale em: https://developer.chrome.com/docs/chromedriver/downloads?hl=pt-br
+ >  - Clone este repositório
+ >  - Instale os pacotes necessários  
 
 1. Clone este repositório  
-   ```bash
+   ```
     git clone https://github.com/Sogayar/Codevasf.git
    ```
 
 2. Instale os pacotes necessários:  
-   ```bash
+   ```
    pip install -r requirements.txt
    ```
 3. Execute o script desejado
@@ -65,7 +67,7 @@ Codevasf/
    
 ---
 
-## Autores
+## Autoria
 - Henrique Sogayar (Ciência da Computação)
 - Eduardo Rabelo (Ciência da Computação)
 - Pedro Eros (Estatística)
