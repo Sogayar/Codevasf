@@ -252,4 +252,4 @@ for i, contrato in enumerate(contratos):
                 break
 
 driver.quit()
-print(f'{Fore.LIGHTGREEN_EX}{Style.BRIGHT}Processo concluído. Todos os contratos foram processados!!!')
+print(f'{Fore.LIGHTGREEN_EX}{Style.BRIGHT}Processo concluído.')
