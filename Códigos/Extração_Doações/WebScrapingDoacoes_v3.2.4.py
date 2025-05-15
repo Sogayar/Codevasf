@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 from colorama import Fore, Style, init
 import time
 
-init(autoreset=True) # Inicializa com autoreset para evitar restauração manual de estilos
+init(autoreset=True) 
 
 def contador_iteração(inicio, fim):
     tempo_duracao = fim - inicio
@@ -18,11 +18,11 @@ def contador_tempototal(inicio_total, fim):
     tempo_duracao = fim - inicio_total
     horas, resto = divmod(tempo_duracao, 3600) 
     minutos, segundos = divmod(resto, 60) 
-    tempo_formatado = f"{int(horas):02}:{int(minutos):02}:{int(segundos):02}" # Formata como HH:MM:SS
+    tempo_formatado = f"{int(horas):02}:{int(minutos):02}:{int(segundos):02}" 
     print(f"\t\tTempo percorrido até o momento: {Fore.YELLOW}{tempo_formatado}")
 
-def save_excel():                    # Função para salvar todos os DataFrames em um único arquivo Excel, com respectivas abas
-    if not os.path.exists("XLS_Files"):         # Se o excel não exister, ele cria um novo
+def save_excel():
+    if not os.path.exists("XLS_Files"): 
         os.makedirs("XLS_Files")
     with pd.ExcelWriter(f"XLS_Files/Doações_{ano_celebracao}_2304.xlsx", engine='openpyxl') as writer:
         df_doacoes.to_excel(writer, sheet_name='Doações', index=False)
@@ -43,15 +43,15 @@ def solicitar_ano():
             print(f"{Fore.RED}Entrada inválida!{Style.RESET_ALL} Certifique-se de digitar um ano numérico.")
 
 def configura_pagina():
-    waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="exercicio"]/option[1]'))) #Espera a opção (Todos estar presente no campo)
-    waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="uf"]/option[1]'))) #Espera a opção (Todos estar presente no campo)
+    waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="exercicio"]/option[1]'))) 
+    waitUrl.until(EC.presence_of_element_located((By.XPATH,'//*[@id="uf"]/option[1]'))) 
 
-    exercicio_box = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="exercicio"]'))) # Preencher o campo Ano de celebraçã
+    exercicio_box = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="exercicio"]'))) 
     exercicio_box.click()
     seleciona = Select(exercicio_box)
     seleciona.select_by_value(ano_celebracao) # print(f"Campo contrato preenchido com {ano_celebracao}")    
 
-    botao_pesquisar = waitUrl.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="exConsultar"]')))  # Clicar no botão de pesquisa
+    botao_pesquisar = waitUrl.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="exConsultar"]')))  
     botao_pesquisar.click() # print("Botão de pesquisa clicado.")
 
     resultList = waitUrl.until(EC.presence_of_element_located((By.XPATH, '//*[@id="resultList"]/div'))).text
@@ -61,7 +61,6 @@ def configura_pagina():
     botao_listar.click()
     return qtd_doacoes
     
-# Criação de DataFrame's 
 df_doacoes = pd.DataFrame(columns=[
     'Número de Instrumento', 'Tipo de Instrumento', 'Data','Valor da Doação', 
     'Entidades Vinculadas', 'Termos Vinculados', 'Objeto'
@@ -72,13 +71,12 @@ df_inteiro_teor = pd.DataFrame(columns=['Número de Instrumento', 'Termo'])
 
 inicio_total = time.time()
 driver_path = "chromedriver.exe" 
-# Inicialização do WebDriver para o Google Chrome
 service = Service(executable_path=driver_path)
 driver = webdriver.Chrome(service=service)
-wait = WebDriverWait(driver, 25) # Definição de espera
+wait = WebDriverWait(driver, 25) 
 waitUrl = WebDriverWait(driver, 70)
 
-url = "https://www.codevasf.gov.br/acesso-a-informacao/doacoes/doacoes-2010-a-2023" # Acessar o site
+url = "https://www.codevasf.gov.br/acesso-a-informacao/doacoes/doacoes-2010-a-2023" 
 driver.get(url)
 ano_celebracao = solicitar_ano()
 qtd_doacoes = configura_pagina()
@@ -94,15 +92,9 @@ while instrumentos:
         sucesso = False
         entidades = []
         inteiro_teor = [] 
-        
-        # Construindo o XPath de doacoes com base no índice atual
         doacoes_xpath = f'//*[@id="quadroDoacoes"]/div/table/tbody/tr[{index}]/td[1]/a'
-        
-        # Tentativa de encontrar o elemento do contrato usando o XPath gerado
         doacao_link = waitUrl.until(EC.element_to_be_clickable((By.XPATH, doacoes_xpath)))
-        doacao_link.click()  # Clica no link do contrato
-        
-        # Extração de elementos
+        doacao_link.click()  
         elemento = wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="modalPanel"]/div/table/tbody/tr[2]/td'))).text
         tipo_instrumento, numero_instrumento = elemento.rsplit(' ', 1) # print(f"Tipo de Instrumento: {tipo_instrumento}")
         print(f"\nN° Instrumento: {Fore.LIGHTMAGENTA_EX} {numero_instrumento}")
@@ -160,19 +152,17 @@ while instrumentos:
             qtd_inteiro_teor = 0
             pass
 
-        # Adiciona dados ao DataFrame Principal
         df_doacoes = pd.concat([df_doacoes, pd.DataFrame([{ 'Número de Instrumento': numero_instrumento,'Tipo de Instrumento': tipo_instrumento, 'Data': data, 
             'Valor da Doação': valor_doacao, 'Entidades Vinculadas': qtd_entidades, 'Termos Vinculados': qtd_inteiro_teor, 'Objeto': objeto }])], ignore_index=True)
         
-        save_excel()# Salvar tudo no excel
-        sucesso = True  # Se tudo correr bem, a pesquisa foi um sucesso
+        save_excel()
+        sucesso = True  
 
-        # Incrementa o contador para passar ao próximo contrato
         index += 1
         contador_refresh += 1
 
         botao_fechar = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="closeModal"]')))
-        botao_fechar.click() # Fechar o POP-UP com o contrato
+        botao_fechar.click() 
         fim = time.time()
         contador_iteração(inicio = inicio,fim = fim)
         print(f"\t\tN° de ITERAÇÕES para refresh: {Fore.RED}{Style.BRIGHT}{contador_refresh}/150")
@@ -183,7 +173,7 @@ while instrumentos:
 
         if contador_refresh >= 150:
             driver.refresh()
-            contador_refresh = 0  # Reinicia o contador após o refresh
+            contador_refresh = 0 
             configura_pagina()
             print(f"\n\t{Fore.LIGHTBLUE_EX}Site recarregado com sucesso após refresh.")
         
@@ -191,7 +181,6 @@ while instrumentos:
             instrumentos = False
         
     except NoSuchElementException:
-        # Sai do loop se não houver mais contratos para acessar
         print("Não possui mais nenhum contrato para processar.")
         break
     except TimeoutException:
@@ -200,9 +189,8 @@ while instrumentos:
         configura_pagina()
 
     except Exception as e:
-        # Opcional: Adiciona um tratamento para erros inesperados
         print(f"Ocorreu um erro: {e}")
         break
 
-driver.quit() # Fechar o navegador
-print(f'{Fore.LIGHTGREEN_EX}{Style.BRIGHT}Processo concluído. Todas as doações foram processados!!!')
+driver.quit()
+print(f'{Fore.LIGHTGREEN_EX}{Style.BRIGHT}Processo concluído.')
