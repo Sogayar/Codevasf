@@ -2,7 +2,7 @@
 ---
 ## Objetivo do projeto
   Automatizar a coleta, organização e análise de dados públicos disponíveis no site da Codevasf (Companhia de Desenvolvimento dos Vales do São Francisco e do Parnaíba), visando construir um painel de transparência para apoiar auditorias e investigações conuzidas pelo TCU, evitando desvios de gastos públicos.
-### 📁 Organização das pastas do projeto de extração de dados efetuados para o Tribunal de Contas da União
+### 📁 Organização das pastas do projeto.
    ```
 Codevasf/
       ├── Códigos/
@@ -41,7 +41,7 @@ Codevasf/
 
 ---
 
-## 🚀 Como Executar
+## 🚀 Instruções para execução
 
  ### **Pré-requisitos**:
  >  - Python 3 instalado  
@@ -52,16 +52,16 @@ Codevasf/
  >  - Instale os pacotes necessários  
 
 1. Clone este repositório  
-   ```
+   ```bash
     git clone https://github.com/Sogayar/Codevasf.git
    ```
 
 2. Instale os pacotes necessários:  
-   ```
+   ```bash
    pip install -r requirements.txt
    ```
 3. Execute o script desejado
-   ```
+   ```bash
    python WebScrapingDoacoes_v3.2.4.py
    ```
    
