@@ -1,7 +1,7 @@
 # Projeto de WebScrapping
 ---
 ## Objetivo do projeto
-  Automatizar a coleta, organização e análise de dados públicos disponíveis no site da Codevasf (Companhia de Desenvolvimento dos Vales do São Francisco e do Parnaíba), visando construir um painel de transparência para apoiar auditorias e investigações conuzidas pelo TCU, evitando desvios de gastos públicos.
+  Automatizar a coleta, organização e análise de dados públicos disponíveis no site da Codevasf (Companhia de Desenvolvimento dos Vales do São Francisco e do Parnaíba), visando construir um painel de transparência para apoiar auditorias e investigações conduzidas pelo TCU, evitando desvios de gastos públicos.
 ### 📁 Organização das pastas do projeto.
    ```
 Codevasf/
