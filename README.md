@@ -18,6 +18,10 @@ Codevasf/
       │     │
       │     └── BotDeContratos.py
       │
+      ├── Imagens
+      │     └── PowerBI
+      │          └── Parlamentar.png
+      │
       └── README.md
 ```
 ---
